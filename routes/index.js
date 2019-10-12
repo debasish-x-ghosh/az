@@ -3,7 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+var model = {
+  title: 'Azure Express',
+  message: process.env.MESSAGE || "This is development"
+ };
+
+  res.render('index', model);
 });
 
 module.exports = router;
