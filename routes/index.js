@@ -5,7 +5,7 @@ const fs = require('fs')
 router.get('/', function(req, res, next) {
   var model = {
     title: 'Hey brother - This is My favorite Azure',
-    mesage: process.env.MESSAGE || "esta es una MAGIC ....."
+    mesage: process.env.MESSAGE || "This is development -esta es una MAGIC ....."
   };
   res.render('index', model);
 });
