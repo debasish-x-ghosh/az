@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var appInsights = require("applicationinsights");
+appInsights.setup('e8c92d17-c6e6-4e8e-b3f9-fa77c58b48ef');
+appInsights.start();
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -22,6 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+app.use('/problem', function(){
+  throw new Error('something went wrong ... !!');
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -33,6 +40,8 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  appInsights.defaultClient.trackException({exception: err});
+  
   // render the error page
   res.status(err.status || 500);
   res.render('error');
